@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Drag and Drop Image Upload</title>
+    <style>
+        .drop-area {
+            width: 300px;
+            height: 300px;
+            border: 2px dashed #ccc;
+            text-align: center;
+            line-height: 300px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="drop-area" id="dropArea">Drag and drop images here</div>
+
+    <script>
+        var dropArea = document.getElementById("dropArea");
+
+        // Prevent default behaviors
+        dropArea.addEventListener("dragenter", preventDefaults, false);
+        dropArea.addEventListener("dragover", preventDefaults, false);
+        dropArea.addEventListener("dragleave", preventDefaults, false);
+        dropArea.addEventListener("drop", preventDefaults, false);
+
+        // Handle file drop event
+        dropArea.addEventListener("drop", handleDrop, false);
+
+        function preventDefaults(event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        function handleDrop(event) {
+            var files = event.dataTransfer.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            for (var i = 0; i < files.length; i++) {
+                uploadFile(files[i]);
+            }
+        }
+
+        function uploadFile(file) {
+            var url = "http://127.0.0.1:8000/upload";
+            var formData = new FormData();
+            formData.append("image", file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("Image uploaded successfully");
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
+</body>
+
+</html>
