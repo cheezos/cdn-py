@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class="drop-area" id="dropArea">Drag and drop images here</div>
+    <div class="drop-area" id="dropArea">Drag and drop files here</div>
 
     <script>
         var dropArea = document.getElementById("dropArea");
@@ -49,13 +49,13 @@
         function uploadFile(file) {
             var url = "http://127.0.0.1:8000/upload";
             var formData = new FormData();
-            formData.append("image", file);
+            formData.append("file", file);
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log("Image uploaded successfully");
+                    console.log("File uploaded successfully");
                 }
             };
             xhr.send(formData);
